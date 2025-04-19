@@ -9,32 +9,43 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="icons/icon-192.png">
 </head>
+<div class="qr-overlay" id="qrOverlay"></div>
+<div class="qr-container" id="qrContainer">
+  <button class="close-btn" id="closeQr">×</button>
+  <img id="qrImage" src="" alt="QR код" class="qr">
+</div>
+<div class="offline-notification" id="offlineNotification">
+  Вы в офлайн-режиме, но приложение работает
+</div>
 <body>
   <div class="card">
     <img src="images/photo.jpg" alt="Фото" class="photo">
     <h1>Мери Маргарян</h1>
-    <p>Профи</p>
+    <p>ПРО</p>
     
     <div class="contact-section">
-      <a href="tel:+79163456789" class="contact-button">
-        <span>+7 (916) 345-67-89</span>
-      </a>
+    <span>+7 (916) 345-67-89</span>
+
       
-      <a href="https://web.telegram.org/k/#@prometriki" target="_blank" class="contact-button">
+      <button class="contact-button" data-qr="telegram-qr.png">
         <span>Telegram</span>
-        <img src="images/telegram-qr.png" alt="QR код Telegram" class="qr">
-      </a>
+      </button>
       
-      <a href="https://vk.com/fkirkorov?from=search" target="_blank" class="contact-button">
+      <button class="contact-button" data-qr="vk-qr.png">
         <span>VK</span>
-      </a>
+      </button>
       
-      <a href="https://github.com/merimargaryan" target="_blank" class="contact-button">
+      <button class="contact-button" data-qr="github-qr.png">
         <span>GitHub</span>
-      </a>
+      </button>
+    </div>
+
+    <div class="qr-container" id="qrContainer" style="display: none;">
+      <img id="qrImage" src="" alt="QR код" class="qr">
+      <button id="closeQr" class="close-btn">×</button>
     </div>
   </div>
-  
+
   <script src="app.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'visitka-cache-v1';
+const CACHE_NAME = 'visitka-cache-v2';
 const OFFLINE_URL = 'offline.html';
 const ASSETS = [
   '/',
@@ -6,7 +6,6 @@ const ASSETS = [
   '/styles.css',
   '/app.js',
   '/manifest.json',
-  '/offline.html',
   '/images/photo.jpg',
   '/images/phone-qr.png',
   '/images/telegram-qr.png',
@@ -16,17 +15,14 @@ const ASSETS = [
   '/icons/icon-512.png'
 ];
 
-// Установка Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(ASSETS);
-      })
+      .then(cache => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Активация и очистка старых кэшей
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -38,22 +34,25 @@ self.addEventListener('activate', event => {
         })
       );
     })
+    .then(() => self.clients.claim())
   );
 });
 
-// Стратегия кэширования: сначала кэш, потом сеть
 self.addEventListener('fetch', event => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match(OFFLINE_URL);
-      })
+      fetch(event.request)
+        .catch(() => caches.match('/index.html'))
     );
   } else {
     event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request);
-      })
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+        .catch(() => {
+          if (event.request.headers.get('accept').includes('text/html')) {
+            return caches.match('/index.html');
+          }
+        })
     );
   }
 });

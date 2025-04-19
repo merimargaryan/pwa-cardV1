@@ -25,6 +25,7 @@ body {
   max-width: 400px;
   width: 100%;
   text-align: center;
+  position: relative; /* Добавлено для позиционирования QR-контейнера */
 }
 
 .photo {
@@ -55,30 +56,84 @@ p {
 }
 
 .contact-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   text-decoration: none;
   color: var(--primary-color);
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
   transition: all 0.3s ease;
+  border: 2px solid var(--primary-color);
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .contact-button:hover {
   background-color: rgba(74, 118, 168, 0.1);
 }
 
-.contact-button span {
-  font-weight: 500;
-  margin-bottom: 10px;
+/* Стили для QR-контейнера */
+.qr-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: none;
 }
 
 .qr {
-  width: 100px;
-  height: 100px;
-  border: 1px solid #eee;
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Оверлей для затемнения фона */
+.qr-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+  display: none;
+}
+
+/* Офлайн-уведомление */
+.offline-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff9800;
+  color: white;
+  padding: 10px 20px;
   border-radius: 5px;
+  z-index: 100;
+  display: none;
 }
 
 @media (max-width: 480px) {
@@ -89,5 +144,10 @@ p {
   .photo {
     width: 120px;
     height: 120px;
+  }
+  
+  .qr {
+    width: 150px;
+    height: 150px;
   }
 }
